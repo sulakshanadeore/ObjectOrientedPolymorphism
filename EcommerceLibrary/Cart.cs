@@ -1,6 +1,15 @@
 ﻿namespace EcommerceLibrary
 {
-    public class Cart
+    public enum UserType 
+    {
+    Admin=1,
+    Customer=2
+   }
+
+
+    
+
+   public class Cart:Orders
     {
 
         public int CustId { get; set; }
@@ -12,14 +21,27 @@
         public decimal Amt { get { return _amt; } private set { _amt = value; } }
         
         public string Mode {  get; private set; }
-        public decimal CalculateAmt()
+        private void CalculateAmt()
         { 
 
-            decimal amt=Price*Quantity;
-            Amt = amt;//private setter called
-            return amt; 
+            Amt=Price*Quantity;
+            //Amt = amt;//private setter called
+            //return amt; 
         
         }
+
+        public override  string AddToCart(int prodid)
+        { 
+        base.AddToCart(prodid);
+         CalculateAmt();
+            string greet="Thanks for shopping with us.. Ur order will reach u soon";
+            return greet;
+        
+        }
+
+
+
+
 
         public decimal Pay(string upiID)
         {

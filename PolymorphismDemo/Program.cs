@@ -4,49 +4,90 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Cart c=new  Cart();
-        Console.WriteLine("Enter Custid");
-        c.CustId =Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("1. Login as Admin ,  2. Login as Customer ");
+
+        UserType userType = (UserType)Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine(userType);
+
+        switch (userType)
+        {
+            case UserType.Admin:
+                Console.WriteLine("\n1. Add Items \n2.Update Items \n3.Delete Items \n4.View Items");
+
+
+                break;
+            case UserType.Customer:
+                Console.WriteLine("\n1. Add Items To Cart \n2.Update Items In Cart \n3.Delete Items from Cart \n4.View Items In Cart");
+                int choice=Convert.ToInt32(Console.ReadLine());
+                switch (choice)
+                {
+                    case 1:
+                        AddItemsToCart();
+
+                        break;
+                    default:
+                        break;
+                }
+
+
+                break;
+
+            default:
+                break;
+        }
+
         
+        Console.ReadLine();
+
+    }
+
+    private static void AddItemsToCart()
+    {
+        Cart c = new Cart();
+        Console.WriteLine("Enter Custid");
+        c.CustId = Convert.ToInt32(Console.ReadLine());
+
+        Console.WriteLine("Enter PRoduct id");
+        c.ProductID = Convert.ToInt32(Console.ReadLine());  
+
         Console.WriteLine("Enter Qty");
         c.Quantity = Convert.ToInt32(Console.ReadLine());
-        
+
         Console.WriteLine("Enter Price");
         c.Price = Convert.ToInt32(Console.ReadLine());
 
-        decimal amt=c.CalculateAmt();
-        Console.WriteLine($"Your total amt to pay= {amt}");
+        //decimal amt = c.CalculateAmt();
+        c.AddToCart(c.ProductID);
+        Console.WriteLine($"Your total amt to pay= {c.Amt}");
         Console.WriteLine("Now select your mode of Payment");
         Console.WriteLine("Menu");
         Console.WriteLine("1.Cash \n2.Card \n3.UPI ID");
-        int choice=Convert.ToInt32(Console.ReadLine());
+        int choice = Convert.ToInt32(Console.ReadLine());
         switch (choice)
         {
             case 1:
-           
+
                 c.Pay();
                 Console.WriteLine($"You have selected Cash");
-               break;
+                break;
             case 2:
-           
+
                 Console.WriteLine("Enter card no");
-                long cardno=Convert.ToInt64(Console.ReadLine());
+                long cardno = Convert.ToInt64(Console.ReadLine());
                 Console.WriteLine("Enter CVV");
-                int cvv=Convert.ToInt32(Console.ReadLine());
-               decimal Amt= c.Pay(cardno, cvv);
+                int cvv = Convert.ToInt32(Console.ReadLine());
+                decimal Amt = c.Pay(cardno, cvv);
                 Console.WriteLine($"You have paid a {Amt} by {c.Mode}");
                 break;
             case 3:
-           
+
                 Console.WriteLine("Enter UPI");
-                string upi=Console.ReadLine();
-                 Amt = c.Pay(upi);
+                string upi = Console.ReadLine();
+                Amt = c.Pay(upi);
                 Console.WriteLine($"You have paid a {Amt} by {c.Mode}");
                 break;
             default:
                 break;
         }
-        Console.ReadLine();
-
     }
 }
